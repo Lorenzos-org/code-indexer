@@ -1,0 +1,84 @@
+ollama:
+  base_url: "http://localhost:11434"
+  model: "nomic-embed-text:latest"
+  timeout: 120
+  batch_size: 8
+  num_threads: 2
+  inter_batch_delay: 0.15
+
+chroma:
+  persist_dir: "~/.local/share/code-indexer/chroma"
+  hnsw_m: 16
+  hnsw_ef_construction: 100
+
+indexing:
+  chunk_lines: 60
+  chunk_overlap: 12
+  max_file_kb: 500
+  respect_gitignore: true
+  extensions:
+    - .py
+    - .js
+    - .ts
+    - .jsx
+    - .tsx
+    - .java
+    - .go
+    - .rs
+    - .c
+    - .cpp
+    - .h
+    - .hpp
+    - .cs
+    - .rb
+    - .php
+    - .swift
+    - .kt
+    - .sh
+    - .bash
+    - .sql
+    - .lua
+    - .r
+    - .md
+    - .txt
+    - .rst
+    - .html
+    - .css
+    - .scss
+    - .yaml
+    - .yml
+    - .toml
+    - .json
+    - .xml
+    - .ini
+    - .env
+  exclude_dirs:
+    - .git
+    - __pycache__
+    - node_modules
+    - .venv
+    - venv
+    - dist
+    - build
+    - target
+    - bin
+    - obj
+    - .tox
+    - .mypy_cache
+    - .pytest_cache
+    - .next
+    - .nuxt
+    - .cache
+    - vendor
+    - .bundle
+    - coverage
+    - .nyc_output
+
+sessions:
+  log_dir: "~/.local/share/code-indexer/sessions"
+  max_sessions: 500
+  store_top_k_results: 5
+
+daemon:
+  interval_seconds: 300
+  paths: []
