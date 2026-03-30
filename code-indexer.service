@@ -1,0 +1,23 @@
+[Unit]
+Description=Local Code Indexer (Ollama + ChromaDB)
+Documentation=https://github.com/yourname/code-indexer
+After=default.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/code-indexer
+ExecStart=%h/.hermes/hermes-agent/venv/bin/python -m src.cli daemon %h/projects --interval 300
+
+Restart=on-failure
+RestartSec=30
+Environment=PYTHONUNBUFFERED=1
+
+# ── Resource constraints (critical for constrained systems) ──
+Nice=15                   # OS deprioritises this process
+CPUQuota=40%              # Hard CPU cap
+MemoryMax=400M            # Hard RAM cap — ChromaDB uses ~100–200MB idle
+IOSchedulingClass=3       # Idle IO — gets out of the way of foreground tasks
+TasksMax=16
+
+[Install]
+WantedBy=default.target
