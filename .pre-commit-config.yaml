@@ -1,0 +1,44 @@
+default_install_hook_types:
+  - pre-commit
+  - pre-push
+  - pre-merge-commit
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=512"]
+        stages: [pre-commit, pre-push, manual]
+      - id: check-merge-conflict
+        stages: [pre-commit, pre-push, manual]
+      - id: check-toml
+        stages: [pre-commit, pre-push, manual]
+      - id: check-yaml
+        stages: [pre-commit, pre-push, manual]
+      - id: debug-statements
+        stages: [pre-commit, pre-push, manual]
+      - id: end-of-file-fixer
+        stages: [pre-commit, manual]
+      - id: trailing-whitespace
+        stages: [pre-commit, manual]
+  - repo: local
+    hooks:
+      - id: ruff-fix
+        name: ruff check --fix
+        entry: .venv/bin/ruff check --fix
+        language: system
+        types_or: [python]
+        stages: [pre-commit, pre-merge-commit, manual]
+      - id: ruff-check
+        name: ruff check
+        entry: .venv/bin/ruff check .
+        language: system
+        pass_filenames: false
+        stages: [pre-push, manual]
+      - id: py-compile
+        name: python py_compile
+        entry: bash -lc '.venv/bin/python -m py_compile __main__.py src/*.py'
+        language: system
+        pass_filenames: false
+        stages: [pre-push, pre-merge-commit, manual]
