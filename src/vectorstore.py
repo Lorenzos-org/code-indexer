@@ -140,7 +140,7 @@ class VectorStore:
 
     @staticmethod
     def _query(col, embedding: List[float], n: int, where: Optional[Dict]) -> List[Dict]:
-        kwargs = dict(
+        kwargs: Dict[str, Any] = dict(
             query_embeddings=[embedding],
             n_results=min(n, max(col.count(), 1)),
             include=["documents", "metadatas", "distances"],
