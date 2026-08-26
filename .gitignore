@@ -1,22 +1,39 @@
-# Python cache
+# Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-
-# Virtual environment
-.venv/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
 venv/
-ENV/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+htmlcov/
+.coverage.*
+.nox/
+.coverage/
+.pytest_cache/
+.hypothesis/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.manifest
+*.spec
+.mypy_cache/
+.pyre/
+.pytype/
+cython_debug/
 
 # IDE
-.idea/
 .vscode/
+.idea/
 *.swp
 *.swo
+*.tmp
 
-# Chroma DB local state
-~/.local/share/code-indexer/
-
-# Logs
-*.log
+# OS
+.DS_Store
+Thumbs.db
