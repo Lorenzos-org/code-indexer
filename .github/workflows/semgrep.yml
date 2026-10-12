@@ -3,14 +3,20 @@ on:
   pull_request: {}
   push:
     branches:
-    - main
-    - master
+      - main
+      - master
     paths:
-    - .github/workflows/semgrep.yml
+      - .github/workflows/semgrep.yml
   schedule:
-  # random HH:MM to avoid a load spike on GitHub Actions at 00:00
-  - cron: 54 19 * * *
+    # random HH:MM to avoid a load spike on GitHub Actions at 00:00
+    - cron: 54 19 * * *
+
 name: Semgrep
+
+concurrency:
+  group: semgrep-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   semgrep:
     name: semgrep/ci
@@ -18,9 +24,18 @@ jobs:
     permissions:
       contents: read
     env:
-      SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+      SEMGREP_APP_TOKEN: [redacted]
     container:
       image: semgrep/semgrep
     steps:
-    - uses: actions/checkout@v6
-    - run: semgrep ci
+      - uses: actions/checkout@v4
+
+      - name: Cache semgrep rules
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/semgrep
+          key: ${{ runner.os }}-semgrep-rules-${{ hashFiles('.github/workflows/semgrep.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-semgrep-rules-
+
+      - run: semgrep ci
